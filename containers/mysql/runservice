@@ -1,0 +1,1 @@
+docker run -d --network=host -p 3306:3306 --name booksdb_container -e MYSQL_ROOT_PASSWORD=mysqltest -e MYSQL_DATABASE=mydb -e MYSQL_USER=myusr -e MYSQL_PASSWORD=mypwd booksdb_image

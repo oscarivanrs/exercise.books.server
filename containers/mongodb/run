@@ -1,0 +1,1 @@
+docker run -d --network=host -p 2707:27017 --name booksmdb_container -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin booksmdb_image
