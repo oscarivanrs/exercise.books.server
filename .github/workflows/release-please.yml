@@ -1,0 +1,32 @@
+name: Release Please On Push
+on:
+  push:
+    branches:
+      - master
+jobs:
+  mvn-package:
+    name: Check if Package Builds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3   
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'oracle'   
+      - name: Test Build
+        env:
+          GH_USER: ${{ secrets.BOOKS_USER }}    
+          GH_TOKEN: ${{ secrets.BOOKS_TOKEN }}      
+        run: mvn  -s .mvn/settings.xml --batch-mode package -DskipTests    
+  release-please:
+    name: Release Please Job
+    needs: [mvn-package]    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v3
+        with:
+          release-type: maven          
+          token: ${{ secrets.BOOKS_TOKEN }}   
+             
