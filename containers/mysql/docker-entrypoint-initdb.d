@@ -9,10 +9,4 @@ mysql -u $MYSQL_USER -p '$MYSQL_PASSWORD' <<EOSQL
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL
   );
-
-  CREATE TABLE t_books (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(50) NOT NULL,
-    author VARCHAR(50) NOT NULL
-  );
 EOSQL
