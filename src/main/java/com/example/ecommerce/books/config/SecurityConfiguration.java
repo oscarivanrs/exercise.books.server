@@ -37,7 +37,7 @@ public class SecurityConfiguration {
         
         return http
                 .csrf(csrf -> csrf.disable()).authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**").permitAll() // Adjust the pattern as needed
+                        .requestMatchers("/auth/**","/books/reachable").permitAll() // Adjust the pattern as needed
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

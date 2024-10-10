@@ -30,6 +30,14 @@ class BooksApplicationTests {
 		assertEquals("http://localhost:4200", entity.getHeaders().getAccessControlAllowOrigin());
 		String greeting = entity.getBody();
 		assertEquals("reachable", greeting);
+		
+		entity = this.restTemplate.exchange(
+				RequestEntity.get(uri("/books/reachable")).header(HttpHeaders.ORIGIN, "http://localhost:4200").build(),
+				String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		assertEquals("http://localhost:4200", entity.getHeaders().getAccessControlAllowOrigin());
+		greeting = entity.getBody();
+		assertEquals("reachable", greeting);
 	}
 
 	private URI uri(String path) {

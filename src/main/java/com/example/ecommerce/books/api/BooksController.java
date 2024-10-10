@@ -25,6 +25,12 @@ public class BooksController
 {
 	@Autowired
 	BookRepository repo;
+	
+	@GetMapping("/reachable")
+    public ResponseEntity<String> reachable()
+    {
+    	return ResponseEntity.ok("reachable");
+    }
 
     @GetMapping("/me")
     public ResponseEntity<UsersEntity> authenticatedUser() {
