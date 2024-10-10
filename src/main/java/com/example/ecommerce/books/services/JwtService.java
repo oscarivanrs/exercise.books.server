@@ -2,7 +2,6 @@ package com.example.ecommerce.books.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -43,17 +42,23 @@ public class JwtService
     public long getExpirationTime() {
         return jwtExpiration;
     }
-
-    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) 
-    {
+    
+    public String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+    	/** Era la versione 0.12.6 ma sono tornato indietro per via di Jwst.parserBuilder() alla 0.11.5 **/
+//        return Jwts.builder()
+//                .subject(userDetails.getUsername())
+//                .issuedAt(new Date(System.currentTimeMillis()))
+//                .expiration(new Date(System.currentTimeMillis() + expiration))
+//                .signWith(getSignInKey())
+//                .compact();
         return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
+        		.builder()
+        		.setClaims(extraClaims)
+        		.setSubject(userDetails.getUsername())
+        		.setIssuedAt(new Date(System.currentTimeMillis()))
+        		.setExpiration(new Date(System.currentTimeMillis() + expiration))
+        		.signWith(getSignInKey(), io.jsonwebtoken.SignatureAlgorithm.HS256)
+        		.compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -70,8 +75,7 @@ public class JwtService
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parser()
+    	return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)

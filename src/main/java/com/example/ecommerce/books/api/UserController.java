@@ -4,6 +4,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200") /*https://spring.io/guides/gs/rest-service-cors*/
 @RequestMapping("/auth")
 public class UserController {
 	
@@ -32,6 +35,12 @@ public class UserController {
     public UserController(JwtService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
+    }
+    
+    @GetMapping("/reachable")
+    public ResponseEntity<String> reachable()
+    {
+    	return ResponseEntity.ok("reachable");
     }
     
 	@PostMapping("/signup")
